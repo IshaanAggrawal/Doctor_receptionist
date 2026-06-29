@@ -29,7 +29,8 @@ def send_sms(to_phone: str, message: str) -> bool:
     """
     if not twilio_client or not TWILIO_PHONE:
         logger.warning(f"SMS Mock: Would have sent to {to_phone}: {message}")
-        return False
+        # Return True in mock mode so the UI allows the user to proceed to the OTP entry screen!
+        return True
         
     try:
         message = twilio_client.messages.create(

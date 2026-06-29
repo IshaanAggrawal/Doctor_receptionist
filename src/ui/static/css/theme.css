@@ -1,0 +1,578 @@
+/*
+ * DentaQ Design System — Global CSS
+ * Professional medical UI with clean white/teal/indigo palette
+ * All Streamlit native elements are overridden here
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* =============================================
+   ROOT VARIABLES
+   ============================================= */
+:root {
+  --primary:        #0EA5E9;   /* Sky Blue — primary actions */
+  --primary-dark:   #0284C7;
+  --primary-light:  #E0F2FE;
+  --accent:         #6366F1;   /* Indigo — accent */
+  --accent-light:   #EEF2FF;
+  --success:        #10B981;   /* Emerald — arrived */
+  --success-light:  #D1FAE5;
+  --warning:        #F59E0B;   /* Amber — confirmed */
+  --warning-light:  #FEF3C7;
+  --danger:         #EF4444;
+  --danger-light:   #FEE2E2;
+  --surface:        #FFFFFF;
+  --bg:             #F0F9FF;   /* Very light sky tint */
+  --bg-alt:         #F8FAFC;
+  --text-primary:   #0F172A;
+  --text-secondary: #475569;
+  --text-muted:     #94A3B8;
+  --border:         #E2E8F0;
+  --border-focus:   #0EA5E9;
+  --shadow-sm:      0 1px 3px rgba(15,23,42,0.06), 0 1px 2px rgba(15,23,42,0.04);
+  --shadow-md:      0 4px 16px rgba(15,23,42,0.08), 0 2px 6px rgba(15,23,42,0.05);
+  --shadow-lg:      0 10px 40px rgba(15,23,42,0.12), 0 4px 12px rgba(15,23,42,0.08);
+  --radius:         12px;
+  --radius-sm:      8px;
+  --radius-lg:      16px;
+  --radius-pill:    9999px;
+}
+
+/* =============================================
+   GLOBAL RESET & TYPOGRAPHY
+   ============================================= */
+html, body, [class*="css"], [class*="st-"] {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+}
+
+/* Force light background — override Streamlit dark mode */
+.stApp {
+  background-color: var(--bg) !important;
+}
+
+.main .block-container {
+  padding-top: 2rem !important;
+  padding-bottom: 3rem !important;
+  max-width: 1100px !important;
+}
+
+/* Hide default Streamlit chrome */
+#MainMenu, header, footer { display: none !important; }
+
+/* =============================================
+   HEADINGS
+   ============================================= */
+h1 {
+  color: var(--text-primary) !important;
+  font-size: 2rem !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.03em !important;
+  line-height: 1.2 !important;
+  margin-bottom: 0.25rem !important;
+}
+h2 {
+  color: var(--text-primary) !important;
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em !important;
+}
+h3 {
+  color: var(--text-primary) !important;
+  font-size: 1.125rem !important;
+  font-weight: 600 !important;
+}
+p, li, label, span, div {
+  color: var(--text-secondary) !important;
+  font-size: 0.9375rem !important;
+  line-height: 1.6 !important;
+}
+
+/* =============================================
+   BUTTONS
+   ============================================= */
+/* Primary */
+div.stButton > button[kind="primary"],
+div.stFormSubmitButton > button[kind="primary"] {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%) !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  border-radius: var(--radius-sm) !important;
+  padding: 0.6rem 1.5rem !important;
+  font-size: 0.9375rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.01em !important;
+  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.35) !important;
+  transition: all 0.2s ease !important;
+  cursor: pointer !important;
+}
+div.stButton > button[kind="primary"]:hover,
+div.stFormSubmitButton > button[kind="primary"]:hover {
+  background: linear-gradient(135deg, var(--primary-dark) 0%, #0369A1 100%) !important;
+  box-shadow: 0 4px 16px rgba(14, 165, 233, 0.45) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Secondary */
+div.stButton > button[kind="secondary"],
+div.stFormSubmitButton > button[kind="secondary"] {
+  background: var(--surface) !important;
+  color: var(--text-secondary) !important;
+  border: 1.5px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+  padding: 0.6rem 1.5rem !important;
+  font-size: 0.9375rem !important;
+  font-weight: 500 !important;
+  transition: all 0.2s ease !important;
+}
+div.stButton > button[kind="secondary"]:hover,
+div.stFormSubmitButton > button[kind="secondary"]:hover {
+  border-color: var(--primary) !important;
+  color: var(--primary) !important;
+  background: var(--primary-light) !important;
+}
+
+/* =============================================
+   INPUTS
+   ============================================= */
+.stTextInput input,
+.stTextInput textarea,
+.stNumberInput input,
+.stDateInput input {
+  background: var(--surface) !important;
+  border: 1.5px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+  color: var(--text-primary) !important;
+  font-size: 0.9375rem !important;
+  padding: 0.625rem 0.875rem !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+.stTextInput input:focus,
+.stTextInput textarea:focus {
+  border-color: var(--border-focus) !important;
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15) !important;
+  outline: none !important;
+}
+
+/* ── Selectbox trigger (closed state) ── */
+.stSelectbox div[data-baseweb="select"] > div:first-child {
+  background: var(--surface) !important;
+  border: 1.5px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+  color: var(--text-primary) !important;
+}
+/* Selected value text */
+.stSelectbox div[data-baseweb="select"] span {
+  color: var(--text-primary) !important;
+}
+
+/* ── Dropdown popup / listbox ── */
+/* Target all BaseWeb popover / dropdown containers */
+div[data-baseweb="popover"],
+div[data-baseweb="popover"] *,
+ul[data-baseweb="menu"],
+ul[data-baseweb="menu"] *,
+div[role="listbox"],
+div[role="listbox"] *,
+div[role="option"],
+li[role="option"],
+li[role="option"] * {
+  background-color: #ffffff !important;
+  color: #0F172A !important;
+}
+
+/* Individual option items */
+li[role="option"],
+div[role="option"] {
+  background: #ffffff !important;
+  color: #0F172A !important;
+  padding: 0.625rem 1rem !important;
+  font-size: 0.9375rem !important;
+}
+li[role="option"]:hover,
+div[role="option"]:hover {
+  background: #F0F9FF !important;
+  color: #0EA5E9 !important;
+  cursor: pointer !important;
+}
+/* Highlighted/focused item */
+li[role="option"][aria-selected="true"],
+div[role="option"][aria-selected="true"] {
+  background: #E0F2FE !important;
+  color: #0284C7 !important;
+  font-weight: 600 !important;
+}
+
+/* Force the scrollable list container to be white */
+[data-baseweb="menu"] {
+  background: #ffffff !important;
+  border: 1.5px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+  box-shadow: var(--shadow-lg) !important;
+  overflow: hidden !important;
+}
+
+/* Override any inline dark background on the ul/li */
+[data-baseweb="menu"] ul,
+[data-baseweb="menu"] li {
+  background: #ffffff !important;
+  color: #0F172A !important;
+}
+
+
+/* =============================================
+   TABS
+   ============================================= */
+.stTabs [data-baseweb="tab-list"] {
+  background: var(--surface) !important;
+  border: 1.5px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+  padding: 4px !important;
+  gap: 4px !important;
+}
+.stTabs [data-baseweb="tab"] {
+  background: transparent !important;
+  border-radius: 6px !important;
+  color: var(--text-secondary) !important;
+  font-weight: 500 !important;
+  font-size: 0.9375rem !important;
+  padding: 0.5rem 1.25rem !important;
+  border: none !important;
+  transition: all 0.2s ease !important;
+}
+.stTabs [aria-selected="true"] {
+  background: var(--primary) !important;
+  color: #FFFFFF !important;
+  font-weight: 600 !important;
+}
+.stTabs [data-baseweb="tab-highlight"] { display: none !important; }
+.stTabs [data-baseweb="tab-border"] { display: none !important; }
+
+/* =============================================
+   METRICS
+   ============================================= */
+[data-testid="stMetricValue"] {
+  font-size: 2.25rem !important;
+  font-weight: 800 !important;
+  color: var(--primary) !important;
+  letter-spacing: -0.03em !important;
+  line-height: 1 !important;
+}
+[data-testid="stMetricLabel"] {
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  color: var(--text-muted) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+}
+[data-testid="metric-container"] {
+  background: var(--surface) !important;
+  border: 1.5px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+  padding: 1.25rem 1.5rem !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+
+/* =============================================
+   ALERTS / INFO BOXES
+   ============================================= */
+.stAlert {
+  border-radius: var(--radius-sm) !important;
+  border: none !important;
+}
+.stSuccess { background: var(--success-light) !important; color: #065F46 !important; }
+.stWarning { background: var(--warning-light) !important; color: #78350F !important; }
+.stError   { background: var(--danger-light) !important;  color: #7F1D1D !important; }
+.stInfo    { background: var(--primary-light) !important; color: #0C4A6E !important; }
+
+/* Dividers */
+hr { border-color: var(--border) !important; }
+
+/* =============================================
+   CUSTOM COMPONENTS
+   ============================================= */
+
+/* ---- Page Header Banner ---- */
+.dq-page-header {
+  background: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem 2rem;
+  margin-bottom: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.dq-page-header .dq-title {
+  color: #FFFFFF !important;
+  font-size: 1.75rem !important;
+  font-weight: 800 !important;
+  margin: 0 !important;
+}
+.dq-page-header .dq-subtitle {
+  color: rgba(255,255,255,0.8) !important;
+  font-size: 0.875rem !important;
+  margin: 0.25rem 0 0 !important;
+}
+
+/* ---- Stat Card ---- */
+.dq-stat-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  box-shadow: var(--shadow-sm);
+  text-align: center;
+}
+.dq-stat-card .dq-stat-num {
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  margin: 0.25rem 0;
+}
+.dq-stat-card .dq-stat-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted) !important;
+}
+
+/* ---- Patient Card ---- */
+.dq-patient-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-left: 4px solid var(--primary);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 0.875rem;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s ease, border-left-color 0.2s ease;
+}
+.dq-patient-card:hover {
+  box-shadow: var(--shadow-md);
+}
+.dq-patient-card.status-in-consultation {
+  border-left-color: var(--accent);
+}
+.dq-patient-card.status-arrived {
+  border-left-color: var(--success);
+}
+.dq-patient-card .dq-queue-num {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--primary) !important;
+  line-height: 1;
+}
+.dq-patient-card .dq-patient-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary) !important;
+  margin: 0;
+}
+.dq-patient-card .dq-slot-time {
+  font-size: 0.8125rem;
+  color: var(--text-muted) !important;
+  margin-top: 0.125rem;
+}
+
+/* ---- Status Badges ---- */
+.dq-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  gap: 0.375rem;
+}
+.dq-badge::before { content: '●'; font-size: 0.625rem; }
+.dq-badge-arrived       { background: var(--success-light); color: #065F46 !important; }
+.dq-badge-arrived::before { color: var(--success) !important; }
+.dq-badge-consultation  { background: var(--accent-light);  color: #3730A3 !important; }
+.dq-badge-consultation::before { color: var(--accent) !important; }
+.dq-badge-confirmed     { background: var(--warning-light); color: #78350F !important; }
+.dq-badge-confirmed::before { color: var(--warning) !important; }
+
+/* ---- Step Indicator (Booking) ---- */
+.dq-steps {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 2rem;
+}
+.dq-step {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+.dq-step-circle {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.8125rem; font-weight: 700;
+  flex-shrink: 0;
+}
+.dq-step-active .dq-step-circle   { background: var(--primary); color: #FFF !important; }
+.dq-step-done .dq-step-circle     { background: var(--success); color: #FFF !important; }
+.dq-step-inactive .dq-step-circle { background: var(--border);  color: var(--text-muted) !important; }
+.dq-step-label {
+  font-size: 0.8125rem; font-weight: 600;
+  margin-left: 0.5rem;
+}
+.dq-step-active .dq-step-label   { color: var(--primary) !important; }
+.dq-step-done .dq-step-label     { color: var(--success) !important; }
+.dq-step-inactive .dq-step-label { color: var(--text-muted) !important; }
+.dq-step-line { flex: 1; height: 2px; background: var(--border); margin: 0 0.5rem; }
+.dq-step-line.done { background: var(--success); }
+
+/* ---- Slot Grid ---- */
+.dq-slot-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.625rem;
+  margin-top: 1rem;
+}
+.dq-slot-btn {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 0.5rem;
+  text-align: center;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-secondary) !important;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.dq-slot-btn:hover {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  color: var(--primary) !important;
+}
+
+/* ---- Token Display ---- */
+.dq-token-card {
+  background: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+  text-align: center;
+  margin: 1.5rem 0;
+}
+.dq-token-value {
+  font-size: 4rem;
+  font-weight: 900;
+  color: #FFFFFF !important;
+  letter-spacing: 0.1em;
+  line-height: 1;
+}
+.dq-token-label {
+  font-size: 0.875rem;
+  color: rgba(255,255,255,0.8) !important;
+  margin-top: 0.5rem;
+  font-weight: 500;
+}
+
+/* ---- Section Title ---- */
+.dq-section-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 1.5rem 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--border);
+}
+
+/* ---- Landing Card ---- */
+.dq-role-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 2rem 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-sm);
+}
+.dq-role-card:hover {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+.dq-role-icon { font-size: 3.5rem; margin-bottom: 0.75rem; display: block; }
+
+/* Enlarge emojis inside headings and page header titles */
+.dq-page-header .dq-title { font-size: 1.5rem !important; }
+.dq-page-header p { margin: 0 !important; }
+
+/* Emoji size boost for any emoji character used inline */
+p .emoji, span .emoji { font-size: 1.5em; }
+
+.dq-role-title { font-size: 1rem; font-weight: 700; color: var(--text-primary) !important; }
+.dq-role-desc  { font-size: 0.8125rem; color: var(--text-muted) !important; margin-top: 0.25rem; }
+
+/* ---- Admin patient row ---- */
+.dq-admin-patient-row {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 0.75rem;
+  box-shadow: var(--shadow-sm);
+}
+.dq-admin-patient-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary) !important;
+}
+.dq-admin-patient-meta {
+  font-size: 0.8125rem;
+  color: var(--text-muted) !important;
+}
+
+/* ---- TV Queue Display ---- */
+.dq-tv-now-serving {
+  background: linear-gradient(135deg, #065F46, #10B981);
+  border-radius: var(--radius-lg);
+  padding: 3rem 2rem;
+  text-align: center;
+}
+.dq-tv-token { font-size: 6rem; font-weight: 900; color: #FFFFFF !important; line-height: 1; }
+.dq-tv-name  { font-size: 1.5rem; font-weight: 600; color: rgba(255,255,255,0.9) !important; margin-top: 0.5rem; }
+.dq-tv-waiting-item {
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.5rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1.5px solid var(--border);
+}
+
+/* ---- Login form card ---- */
+.dq-login-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem 2rem;
+  box-shadow: var(--shadow-md);
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+/* =============================================
+   STREAMLIT ELEMENT TWEAKS
+   ============================================= */
+/* Remove ugly default padding from form */
+.stForm { background: transparent !important; border: none !important; padding: 0 !important; }
+[data-testid="stForm"] { background: transparent !important; }
+
+/* Spinner */
+.stSpinner > div { border-color: var(--primary) transparent transparent !important; }
+
+/* Caption */
+.stCaptionText { color: var(--text-muted) !important; font-size: 0.8125rem !important; }

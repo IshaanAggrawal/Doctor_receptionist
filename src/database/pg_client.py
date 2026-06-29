@@ -7,7 +7,7 @@ logger = logging.getLogger(__name__)
 
 # ALWAYS use the pooled connection string (Port 6543) for Supabase
 # This prevents our app from hitting the max connection limit under heavy load.
-DB_URL = os.environ.get("SUPABASE_DB_URL_POOLED")
+DB_URL = os.environ.get("DATABASE_URL")
 
 @contextmanager
 def get_db_connection():
@@ -23,7 +23,7 @@ def get_db_connection():
     the transaction is rolled back, preventing bad data from saving.
     """
     if not DB_URL:
-        raise ValueError("SUPABASE_DB_URL_POOLED environment variable is missing.")
+        raise ValueError("DATABASE_URL environment variable is missing.")
 
     # We open a connection to the Postgres database
     conn = psycopg2.connect(DB_URL)

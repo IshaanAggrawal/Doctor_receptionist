@@ -61,10 +61,7 @@ CREATE TABLE appointments (
     arrived_at          TIMESTAMPTZ,
     called_at           TIMESTAMPTZ,
     completed_at        TIMESTAMPTZ,
-    created_at          TIMESTAMPTZ DEFAULT now(),
-
-    -- KEY CONSTRAINT: one booking per phone per clinic per day
-    UNIQUE(clinic_id, phone_number, (created_at::DATE))
+    created_at          TIMESTAMPTZ DEFAULT now()
 );
 
 CREATE INDEX idx_appt_clinic_status  ON appointments(clinic_id, status);

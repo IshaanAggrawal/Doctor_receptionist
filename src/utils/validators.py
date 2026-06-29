@@ -12,15 +12,18 @@ def validate_phone(phone: str) -> Optional[str]:
     # Remove all spaces, dashes, and parentheses
     clean = re.sub(r'[\s\-\(\)]', '', phone)
     
-    # Pakistan format example: +92, 03, or 923 followed by 9 digits
-    # (You can adjust this regex for other countries like US: ^\+1[0-9]{10}$)
-    pattern = r'^(\+92|0|92)[3][0-9]{9}$'
+    # Accept international format: optional '+', followed by 10 to 15 digits
+    pattern = r'^\+?[0-9]{10,15}$'
     
     if re.match(pattern, clean):
-        # Normalize to standard +92 format
-        if clean.startswith('0'):
-            return '+92' + clean[1:]
-        if clean.startswith('92'):
+        # Ensure it always has the + prefix for Twilio compatibility
+        if not clean.startswith('+'):
+            # If no country code, default it (you can change this to +91 or +92)
+            # For this fix, we will just return it as-is if we don't know the code,
+            # but Twilio strictly requires E.164 (+CountryCode...).
+            # Let's assume if it's strictly 10 digits, it's a local Indian number
+            if len(clean) == 10:
+                return '+91' + clean
             return '+' + clean
         return clean
         

@@ -8,6 +8,26 @@ from src.services.sms_service import send_tier1_notification, send_tier2_notific
 
 logger = logging.getLogger(__name__)
 
+def get_daily_stats(clinic_id: str, date_str: str) -> Dict[str, int]:
+    """Returns basic KPIs for the doctor dashboard."""
+    with get_db_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute("""
+                SELECT 
+                    COUNT(*) as total,
+                    SUM(CASE WHEN a.status IN ('confirmed', 'arrived') THEN 1 ELSE 0 END) as waiting,
+                    SUM(CASE WHEN a.status = 'completed' THEN 1 ELSE 0 END) as completed
+                FROM appointments a
+                JOIN slots s ON s.id = a.slot_id
+                WHERE a.clinic_id = %s AND s.slot_time::DATE = %s::DATE
+            """, (clinic_id, date_str))
+            row = cur.fetchone()
+            return {
+                "total": row[0] or 0,
+                "waiting": row[1] or 0,
+                "completed": row[2] or 0
+            }
+
 def get_live_queue(clinic_id: str, date_str: str) -> List[Dict[str, Any]]:
     """
     Fetches the live queue for a specific clinic and date.

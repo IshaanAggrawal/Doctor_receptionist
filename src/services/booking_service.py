@@ -125,11 +125,13 @@ def book_slot(clinic_id: str, slot_id: str, patient_name: str, phone_number: str
         return {"success": False, "error": "RACE_CONDITION", "message": "Someone else is booking this slot right now. Please select another."}
         
     except psycopg2.errors.UniqueViolation as e:
-        # Caught the "One booking per phone per day" constraint!
-        if "DUPLICATE_BOOKING" in str(e) or "appointments_phone_number" in str(e):
-            return {"success": False, "error": "DUPLICATE", "message": "You already have a booking for today."}
+        # Caught generic unique constraint violations
         return {"success": False, "error": "DB_CONSTRAINT", "message": "A database constraint was violated."}
         
     except Exception as e:
+        # Custom RAISE EXCEPTION from our PostgreSQL Trigger falls here
+        if "DUPLICATE_BOOKING" in str(e):
+            return {"success": False, "error": "DUPLICATE", "message": "This phone number already has a booking for today."}
+            
         logger.error(f"Unexpected error during booking: {e}")
         return {"success": False, "error": "SYSTEM_ERROR", "message": "An unexpected error occurred. Please try again."}

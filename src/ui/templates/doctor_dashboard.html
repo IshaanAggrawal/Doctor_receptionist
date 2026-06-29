@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MediFlow Clinic - Doctor Dashboard</title>
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-bright": "#f9f9ff",
+                    "on-secondary-container": "#5e6367",
+                    "primary-fixed": "#d7e2ff",
+                    "on-error": "#ffffff",
+                    "tertiary-fixed": "#ffdbcc",
+                    "surface-container-high": "#dee8ff",
+                    "secondary": "#5a5f62",
+                    "inverse-on-surface": "#ebf1ff",
+                    "surface-dim": "#cfdaf1",
+                    "surface-container-highest": "#d8e3fa",
+                    "on-tertiary": "#ffffff",
+                    "on-tertiary-fixed-variant": "#7b2f00",
+                    "on-secondary-fixed-variant": "#43474b",
+                    "tertiary": "#722b00",
+                    "outline": "#727784",
+                    "error": "#ba1a1a",
+                    "secondary-container": "#dce0e4",
+                    "inverse-surface": "#263142",
+                    "on-tertiary-container": "#ffc2a7",
+                    "surface-container": "#e7eeff",
+                    "on-surface-variant": "#424752",
+                    "on-tertiary-fixed": "#351000",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "on-primary-container": "#bbd0ff",
+                    "tertiary-container": "#983c00",
+                    "background": "#f9f9ff",
+                    "secondary-fixed": "#dfe3e7",
+                    "secondary-fixed-dim": "#c3c7cb",
+                    "on-error-container": "#93000a",
+                    "primary-container": "#0056b3",
+                    "tertiary-fixed-dim": "#ffb694",
+                    "surface": "#f9f9ff",
+                    "primary": "#003f87",
+                    "on-secondary-fixed": "#171c1f",
+                    "outline-variant": "#c2c6d4",
+                    "error-container": "#ffdad6",
+                    "on-primary-fixed-variant": "#004491",
+                    "surface-container-low": "#f0f3ff",
+                    "on-surface": "#111c2c",
+                    "inverse-primary": "#acc7ff",
+                    "on-primary-fixed": "#001a40",
+                    "surface-tint": "#115cb9",
+                    "on-background": "#111c2c",
+                    "primary-fixed-dim": "#acc7ff",
+                    "on-primary": "#ffffff",
+                    "surface-variant": "#d8e3fa"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "lg": "1.5rem",
+                    "gutter": "1.5rem",
+                    "md": "1rem",
+                    "base": "4px",
+                    "xs": "0.25rem",
+                    "xl": "2rem",
+                    "sm": "0.5rem",
+                    "margin": "2rem"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter"],
+                    "headline-lg-mobile": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-xl": ["Inter"],
+                    "label-md": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "headline-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-xl": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "label-sm": ["11px", {"lineHeight": "14px", "fontWeight": "500"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f9f9ff; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .clinic-card-shadow {
+            box-shadow: 0 4px 12px rgba(0, 86, 179, 0.04);
+        }
+        .clinic-card-hover:hover {
+            box-shadow: 0 8px 24px rgba(0, 86, 179, 0.08);
+            border-color: #0056b3;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen pb-24 md:pb-0">
+<!-- TopAppBar Section -->
+<header class="bg-surface-container-lowest border-b border-outline-variant shadow-sm docked full-width top-0 z-50 sticky">
+<div class="flex justify-between items-center w-full px-lg py-md max-w-[1440px] mx-auto">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary text-[28px]" data-icon="medical_services">medical_services</span>
+<h1 class="font-headline-lg text-headline-lg font-bold text-primary">MediFlow Clinic</h1>
+</div>
+<div class="hidden md:flex items-center gap-xl mr-auto ml-16">
+<nav class="flex gap-lg">
+<a class="text-primary font-bold font-label-md text-label-md hover:bg-primary-container transition-colors px-3 py-2 rounded-lg" href="#">Queue</a>
+<a class="text-secondary font-label-md text-label-md hover:bg-primary-container transition-colors px-3 py-2 rounded-lg" href="#">Patients</a>
+<a class="text-secondary font-label-md text-label-md hover:bg-primary-container transition-colors px-3 py-2 rounded-lg" href="#">Analytics</a>
+</nav>
+</div>
+<button class="bg-primary-container text-white px-lg py-sm rounded-lg font-label-md text-label-md font-bold uppercase tracking-wider flex items-center gap-xs active:scale-95 duration-150 ease-in-out">
+<span class="material-symbols-outlined text-[18px]" data-icon="play_arrow" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                CALL NEXT PATIENT
+            </button>
+</div>
+</header>
+<main class="max-w-[1440px] mx-auto px-md md:px-lg py-lg space-y-lg">
+<!-- KPI Metrics Row -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-md md:gap-lg">
+<!-- Metric Card 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant p-lg rounded-xl clinic-card-shadow flex flex-col gap-xs">
+<span class="text-on-surface-variant font-label-md text-label-md uppercase tracking-widest">Total Patients Today</span>
+<div class="flex items-baseline justify-between mt-base">
+<span class="font-headline-xl text-headline-xl text-on-surface">24</span>
+<span class="text-primary bg-primary-fixed px-2 py-1 rounded font-label-sm text-label-sm">+12%</span>
+</div>
+</div>
+<!-- Metric Card 2 (Highlighted) -->
+<div class="bg-surface-container-lowest border-2 border-primary p-lg rounded-xl clinic-card-shadow flex flex-col gap-xs relative overflow-hidden">
+<div class="absolute top-0 right-0 p-2">
+<span class="flex h-3 w-3">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
+</span>
+</div>
+<span class="text-primary font-label-md text-label-md uppercase tracking-widest font-bold">Patients Waiting</span>
+<div class="flex items-baseline mt-base">
+<span class="font-headline-xl text-headline-xl text-primary">8</span>
+<span class="ml-2 font-body-md text-body-md text-on-surface-variant">Active Queue</span>
+</div>
+</div>
+<!-- Metric Card 3 -->
+<div class="bg-surface-container-lowest border border-outline-variant p-lg rounded-xl clinic-card-shadow flex flex-col gap-xs">
+<span class="text-on-surface-variant font-label-md text-label-md uppercase tracking-widest">Completed Consultations</span>
+<div class="flex items-baseline mt-base">
+<span class="font-headline-xl text-headline-xl text-on-surface">12</span>
+<span class="ml-2 font-body-md text-body-md text-on-surface-variant">Today</span>
+</div>
+</div>
+</section>
+<!-- Main Content: Live Patient Queue -->
+<section class="space-y-md">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-md text-headline-md text-on-surface flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary" data-icon="group_work">group_work</span>
+                    Live Patient Queue
+                </h2>
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]" data-icon="update">update</span>
+<span class="font-label-md text-label-md">Last updated 2 mins ago</span>
+</div>
+</div>
+<!-- Patient List (Mobile-Optimized Cards & Desktop Responsive Table View) -->
+<div class="grid grid-cols-1 gap-sm">
+<!-- Patient Card 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant p-md md:p-lg rounded-xl clinic-card-shadow clinic-card-hover transition-all flex flex-col md:flex-row md:items-center gap-md">
+<div class="flex items-center gap-md flex-1">
+<div class="bg-primary-container/10 text-primary font-bold w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0">
+                            #012
+                        </div>
+<div class="flex flex-col">
+<span class="font-headline-md text-headline-md text-on-surface">John Doe</span>
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]" data-icon="schedule">schedule</span>
+<span class="font-body-md text-body-md">10:30 AM - 10:45 AM</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between md:justify-end gap-lg md:w-1/2">
+<div class="bg-primary/10 text-primary px-3 py-1 rounded-full font-label-md text-label-md border border-primary/20 flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]" data-icon="sync" style="font-variation-settings: 'FILL' 1;">sync</span>
+                            In Consultation
+                        </div>
+<button class="bg-primary text-white px-md py-xs rounded-lg font-label-md text-label-md font-bold hover:bg-primary-container transition-colors active:scale-95">
+                            Mark Completed
+                        </button>
+</div>
+</div>
+<!-- Patient Card 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant p-md md:p-lg rounded-xl clinic-card-shadow clinic-card-hover transition-all flex flex-col md:flex-row md:items-center gap-md">
+<div class="flex items-center gap-md flex-1">
+<div class="bg-secondary-container text-secondary font-bold w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0">
+                            #013
+                        </div>
+<div class="flex flex-col">
+<span class="font-headline-md text-headline-md text-on-surface">Sarah Smith</span>
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]" data-icon="schedule">schedule</span>
+<span class="font-body-md text-body-md">10:45 AM - 11:00 AM</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between md:justify-end gap-lg md:w-1/2">
+<div class="bg-[#e8f5e9] text-[#2e7d32] px-3 py-1 rounded-full font-label-md text-label-md border border-[#c8e6c9] flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                            Arrived
+                        </div>
+<button class="border border-primary text-primary px-md py-xs rounded-lg font-label-md text-label-md font-bold hover:bg-primary hover:text-white transition-all active:scale-95">
+                            Mark Completed
+                        </button>
+</div>
+</div>
+<!-- Patient Card 3 -->
+<div class="bg-surface-container-lowest border border-outline-variant p-md md:p-lg rounded-xl clinic-card-shadow clinic-card-hover transition-all flex flex-col md:flex-row md:items-center gap-md">
+<div class="flex items-center gap-md flex-1">
+<div class="bg-secondary-container text-secondary font-bold w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0">
+                            #014
+                        </div>
+<div class="flex flex-col">
+<span class="font-headline-md text-headline-md text-on-surface">Michael Brown</span>
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]" data-icon="schedule">schedule</span>
+<span class="font-body-md text-body-md">11:00 AM - 11:15 AM</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between md:justify-end gap-lg md:w-1/2">
+<div class="bg-[#fffde7] text-[#fbc02d] px-3 py-1 rounded-full font-label-md text-label-md border border-[#fff9c4] flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]" data-icon="pending" style="font-variation-settings: 'FILL' 1;">pending</span>
+                            Confirmed
+                        </div>
+<button class="border border-primary text-primary px-md py-xs rounded-lg font-label-md text-label-md font-bold hover:bg-primary hover:text-white transition-all active:scale-95">
+                            Mark Completed
+                        </button>
+</div>
+</div>
+<!-- Patient Card 4 -->
+<div class="bg-surface-container-lowest border border-outline-variant p-md md:p-lg rounded-xl clinic-card-shadow clinic-card-hover transition-all flex flex-col md:flex-row md:items-center gap-md">
+<div class="flex items-center gap-md flex-1">
+<div class="bg-secondary-container text-secondary font-bold w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0">
+                            #015
+                        </div>
+<div class="flex flex-col">
+<span class="font-headline-md text-headline-md text-on-surface">Elena Rodriguez</span>
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]" data-icon="schedule">schedule</span>
+<span class="font-body-md text-body-md">11:15 AM - 11:30 AM</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between md:justify-end gap-lg md:w-1/2">
+<div class="bg-[#fffde7] text-[#fbc02d] px-3 py-1 rounded-full font-label-md text-label-md border border-[#fff9c4] flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]" data-icon="pending" style="font-variation-settings: 'FILL' 1;">pending</span>
+                            Confirmed
+                        </div>
+<button class="border border-primary text-primary px-md py-xs rounded-lg font-label-md text-label-md font-bold hover:bg-primary hover:text-white transition-all active:scale-95">
+                            Mark Completed
+                        </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Subtle Timeline Decoration -->
+<div class="relative py-xl overflow-hidden hidden lg:block">
+<div class="absolute left-1/2 top-0 bottom-0 w-px bg-outline-variant"></div>
+<div class="flex flex-col items-center gap-xl relative z-10">
+<div class="bg-white border border-outline-variant p-sm rounded-full"><span class="material-symbols-outlined text-primary" data-icon="history">history</span></div>
+<div class="bg-white border border-outline-variant p-sm rounded-full"><span class="material-symbols-outlined text-secondary" data-icon="event_note">event_note</span></div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar Section (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-surface-container border-t border-outline-variant shadow-lg flex justify-around items-center px-md py-xs pb-safe z-50">
+<button class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl px-4 py-1 active:scale-90 transition-transform">
+<span class="material-symbols-outlined" data-icon="group_work" style="font-variation-settings: 'FILL' 1;">group_work</span>
+<span class="font-label-md text-label-md">Queue</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant active:scale-90 transition-transform">
+<span class="material-symbols-outlined" data-icon="person_search">person_search</span>
+<span class="font-label-md text-label-md">Patients</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant active:scale-90 transition-transform">
+<span class="material-symbols-outlined" data-icon="monitoring">monitoring</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</button>
+</nav>
+<!-- Interactive Layer: Simple JS for row selection feedback -->
+<script>
+        document.querySelectorAll('.clinic-card-hover').forEach(card => {
+            card.addEventListener('click', function() {
+                // Toggle a subtle background change
+                this.classList.toggle('bg-primary-fixed');
+                setTimeout(() => {
+                    this.classList.toggle('bg-primary-fixed');
+                }, 100);
+            });
+        });
+    </script>
+</body></html>
