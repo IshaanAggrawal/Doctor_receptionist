@@ -102,3 +102,56 @@ def call_next_patient(clinic_id: str) -> Dict[str, Any]:
     except Exception as e:
         logger.error(f"Error calling next patient: {e}")
         return {"success": False, "message": "System error calling the next patient."}
+
+def get_unconfirmed_patients(clinic_id: str, date_str: str) -> List[Dict[str, Any]]:
+    """Fetches patients who have booked but have not yet 'arrived' at the clinic."""
+    try:
+        with get_db_connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute("""
+                    SELECT a.id, a.patient_name, a.phone_number, a.status, a.queue_position, s.slot_time, s.id as slot_id
+                    FROM appointments a
+                    JOIN slots s ON s.id = a.slot_id
+                    WHERE a.clinic_id = %s
+                      AND s.slot_time::DATE = %s::DATE
+                      AND a.status = 'confirmed'
+                    ORDER BY s.slot_time ASC
+                """, (clinic_id, date_str))
+                
+                columns = [desc[0] for desc in cur.description]
+                return [dict(zip(columns, row)) for row in cur.fetchall()]
+    except Exception as e:
+        logger.error(f"Error fetching unconfirmed: {e}")
+        return []
+
+def update_patient_status(appt_id: str, new_status: str, slot_id: str = None) -> bool:
+    """Updates a patient's status. If they are a no-show, frees the slot."""
+    try:
+        with get_db_connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute("UPDATE appointments SET status = %s WHERE id = %s", (new_status, appt_id))
+                
+                # If marked as no-show, we must re-open the slot
+                if new_status == 'no_show' and slot_id:
+                    cur.execute("UPDATE slots SET is_available = true WHERE id = %s", (slot_id,))
+                    
+        # Note: If no_show, we would invalidate the cache for this clinic in a full implementation.
+        return True
+    except Exception as e:
+        logger.error(f"Error updating status: {e}")
+        return False
+
+def push_patient_back_in_queue(appt_id: str) -> bool:
+    """If a patient is running late, push them down the queue by adding to their position."""
+    try:
+        with get_db_connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute("""
+                    UPDATE appointments 
+                    SET queue_position = queue_position + 5 
+                    WHERE id = %s
+                """, (appt_id,))
+        return True
+    except Exception as e:
+        logger.error(f"Error delaying patient: {e}")
+        return False

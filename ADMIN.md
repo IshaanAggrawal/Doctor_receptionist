@@ -41,7 +41,18 @@ Instead of manually typing out every single 30-minute block for the day, DentaQ 
 
 ---
 
-## 4. Analytics & Peak Monitoring (Future Extension)
+## 4. Managing Arrivals (Handling Late & No-Show Patients)
+The **"📞 Manage Arrivals"** tab gives the receptionist total control over the live queue, ensuring the doctor is never left waiting for a patient who isn't there.
+
+It displays a live list of all patients who booked a slot for today, but have **not yet checked in** at the clinic. The receptionist can call them and take one of three actions:
+
+1. **✅ Mark Arrived**: The patient just walked through the front door. This adds them to the live waiting room queue so the doctor can call them.
+2. **⏳ Running Late (Push Back)**: The patient answers the phone and says, *"I'm stuck in traffic, I'll be 15 minutes late."* Instead of canceling their appointment, this button **shifts their queue position down by 5 spots**. This allows patients who are already physically waiting in the clinic to go in first, keeping the doctor busy!
+3. **❌ No-Show (Drop)**: The patient doesn't answer the phone, or they answer and cancel. This button instantly deletes their appointment and **reopens their time slot** so someone else can book it online.
+
+---
+
+## 5. Analytics & Peak Monitoring (Future Extension)
 Because every single action (Booking, No-Show, Cancellation) is logged into the `analytics_events` append-only table, the Admin Panel acts as the data hub. 
 
 *Admins can view (based on the `analytics_service.py`):*

@@ -3,6 +3,7 @@ import datetime
 from src.services.slot_service import generate_daily_slots, fetch_slots
 from src.services.booking_service import book_slot
 from src.utils.validators import validate_phone
+from src.services.queue_service import get_unconfirmed_patients, update_patient_status, push_patient_back_in_queue
 
 def render_admin_panel():
     if st.session_state.get("authenticated_role") != "admin":
@@ -14,7 +15,7 @@ def render_admin_panel():
     clinic_id = "00000000-0000-0000-0000-000000000000"
     today = datetime.datetime.now().strftime("%Y-%m-%d")
 
-    tab1, tab2 = st.tabs(["🚶 Walk-in Booking", "📅 Manage Slots"])
+    tab1, tab2, tab3 = st.tabs(["🚶 Walk-in Booking", "📅 Manage Slots", "📞 Manage Arrivals"])
 
     # --- TAB 1: WALK-IN BOOKING (Bypass OTP) ---
     with tab1:
@@ -83,3 +84,42 @@ def render_admin_panel():
                     st.success(f"Successfully generated {inserted} slots for {date_to_gen}!")
                 else:
                     st.warning("No slots generated (they might already exist).")
+                    
+    # --- TAB 3: MANAGE ARRIVALS (Calling late patients) ---
+    with tab3:
+        st.header("Manage Patient Arrivals")
+        st.write("Patients below have booked a slot but have **not yet arrived** at the clinic.")
+        
+        unconfirmed = get_unconfirmed_patients(clinic_id, today)
+        
+        if not unconfirmed:
+            st.info("All booked patients have either arrived or there are no active bookings.")
+        else:
+            for p in unconfirmed:
+                raw_time = p['slot_time'].split("T")[1][:5]
+                dt_obj = datetime.datetime.strptime(raw_time, "%H:%M")
+                
+                st.markdown(f"**{p['patient_name']}** (Slot: {dt_obj.strftime('%I:%M %p')})")
+                st.write(f"📞 {p['phone_number']}")
+                
+                col1, col2, col3 = st.columns(3)
+                
+                with col1:
+                    if st.button("✅ Mark Arrived", key=f"arr_{p['id']}", type="primary"):
+                        update_patient_status(p['id'], 'arrived')
+                        st.rerun()
+                        
+                with col2:
+                    if st.button("⏳ Running Late (Push Back)", key=f"late_{p['id']}"):
+                        # They called and said they are late. We push them down the queue.
+                        push_patient_back_in_queue(p['id'])
+                        st.success(f"Pushed {p['patient_name']} down the queue by 5 spots.")
+                        
+                with col3:
+                    if st.button("❌ No-Show (Drop)", key=f"drop_{p['id']}"):
+                        # Didn't answer the phone. Drop them and reopen the slot.
+                        update_patient_status(p['id'], 'no_show', p['slot_id'])
+                        st.error(f"Marked {p['patient_name']} as No-Show. Slot reopened.")
+                        st.rerun()
+                        
+                st.divider()
